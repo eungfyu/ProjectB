@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.webapp.mapper.ProductMapper">
+
+<resultMap type="Product" id="productResultMap">
+	<id property="prduct_no" column="prduct_no"/>
+	<id property="prduct_code" column="prduct_code"/>
+	<result property="prduct_nm" column="prduct_nm"/>
+	<result property="prduct_pc" column="prduct_pc"/>
+	<result property="prduct_qy" column="prduct_qy"/>
+	<result property="prduct_ctgry" column="prduct_ctgry"/>
+	<result property="prduct_img_url" column="prduct_img_url"/>
+	<result property="prduct_reg_time" column="prduct_reg_time"/>
+	<result property="prduct_register" column="prduct_register"/>
+	<result property="prduct_updt_time" column="prduct_updt_time"/>
+	<result property="prduct_updusr" column="prduct_updusr"/>
+</resultMap>
+
+<sql id="product">
+	select PRDUCT_NO as prduct_no, 
+		   PRDUCT_CODE as prduct_code, 
+		   PRDUCT_NM as prduct_nm, 
+		   PRDUCT_PC as prduct_pc, 
+		   PRDUCT_QY as prduct_qy, 
+		   PRDUCT_CTGRY as prduct_ctgry, 
+		   PRDUCT_IMG_URL as prduct_img_url, 
+		   PRDUCT_REG_TIME as prduct_reg_time, 
+		   PRDUCT_REGISTER as prduct_register, 
+		   PRDUCT_UPDT_TIME as prduct_updt_time, 
+		   PRDUCT_UPDUSR as prduct_updusr
+	  from th_product
+</sql>
+
+<select id="selectAll" 
+		resultMap="productResultMap">
+		
+	<include refid="product"/>
+</select>
+
+<select id="select" 
+		parameterType="hashmap" 
+		resultMap="productResultMap" databaseId="mysql">
+	<include refid="product"/>
+	order by PRDUCT_NO desc
+	limit #{offset}, #{count}
+</select>
+
+
+<select id="selectByPRDUCT_NO"  
+		parameterType="int"
+		resultMap="productResultMap">
+		
+	<include refid="product"/>
+	 where PRDUCT_NO = #{PRDUCT_NO}
+</select>
+
+<select id="selectByPRDUCT_CODE"  
+		parameterType="string"
+		resultMap="productResultMap">
+		
+	<include refid="product"/>
+	 where PRDUCT_CODE = #{PRDUCT_CODE} 
+</select>
+
+<select id="selectTotalCount" resultType="int">
+	select count(*) from th_product
+</select>
+
+<insert id="insertGenerator" parameterType="Product">
+	insert into th_product
+	(
+		   PRDUCT_NO as prduct_no, 
+		   PRDUCT_CODE as prduct_code, 
+		   PRDUCT_NM as prduct_nm, 
+		   PRDUCT_PC as prduct_pc, 
+		   PRDUCT_QY as prduct_qy, 
+		   PRDUCT_CTGRY as prduct_ctgry, 
+		   PRDUCT_IMG_URL as prduct_img_url, 
+		   PRDUCT_REG_TIME as prduct_reg_time, 
+		   PRDUCT_REGISTER as prduct_register, 
+		   PRDUCT_UPDT_TIME as prduct_updt_time, 
+		   PRDUCT_UPDUSR as prduct_updusr
+	)
+	values
+	(
+		#{PRDUCT_NO},
+		#{PRDUCT_CODE},
+		#{PRDUCT_NM},
+		#{PRDUCT_PC},
+		#{PRDUCT_QY},
+		#{PRDUCT_CTGRY},
+		#{PRDUCT_IMG_URL},
+		#{PRDUCT_REG_TIME},
+		#{PRDUCT_REGISTER},
+		#{PRDUCT_UPDT_TIME},
+		#{PRDUCT_UPDUSR}
+	)
+</insert>
+
+<insert id="insert" 
+		parameterType="Product" 
+		useGeneratedKeys="true"
+		keyProperty="PRDUCT_NO" keyColumn="PRDUCT_NO" databaseId="mysql">
+	insert into th_product
+	(
+		PRDUCT_CODE as prduct_code, 
+		   PRDUCT_NM as prduct_nm, 
+		   PRDUCT_PC as prduct_pc, 
+		   PRDUCT_QY as prduct_qy, 
+		   PRDUCT_CTGRY as prduct_ctgry, 
+		   PRDUCT_IMG_URL as prduct_img_url, 
+		   PRDUCT_REG_TIME as prduct_reg_time, 
+		   PRDUCT_REGISTER as prduct_register, 
+		   PRDUCT_UPDT_TIME as prduct_updt_time, 
+		   PRDUCT_UPDUSR as prduct_updusr
+	)
+	values
+	(
+		#{PRDUCT_CODE},
+		#{PRDUCT_NM},
+		#{PRDUCT_PC},
+		#{PRDUCT_QY},
+		#{PRDUCT_CTGRY},
+		#{PRDUCT_IMG_URL},
+		#{PRDUCT_REG_TIME},
+		#{PRDUCT_REGISTER},
+		#{PRDUCT_UPDT_TIME},
+		#{PRDUCT_UPDUSR}
+	)
+</insert>
+
+<update id="update" parameterType="Product">
+	update th_product
+	<set>
+		<if test="PRDUCT_NM != null">
+			PRDUCT_NM= #{PRDUCT_NM},
+		</if>
+		<if test="PRDUCT_PC != null">
+			PRDUCT_PC	= #{PRDUCT_PC},
+		</if>
+		<if test="PRDUCT_QY != null">
+			PRDUCT_QY	= #{PRDUCT_QY},
+		</if>
+		<if test="PRDUCT_CTGRY != null">
+			PRDUCT_CTGRY	= #{PRDUCT_CTGRY},
+		</if>
+		<if test="PRDUCT_IMG_URL != null">
+			PRDUCT_IMG_URL	= #{PRDUCT_IMG_URL},
+		</if>
+		<if test="PRDUCT_REG_TIME != null">
+			PRDUCT_REG_TIME	= #{PRDUCT_REG_TIME},
+		</if>
+		<if test="PRDUCT_REGISTER != null">
+			PRDUCT_REGISTER	= #{PRDUCT_REGISTER},
+		</if>
+		<if test="PRDUCT_UPDT_TIME != null">
+			PRDUCT_UPDT_TIME	= #{PRDUCT_UPDT_TIME},
+		</if>
+		<if test="PRDUCT_UPDUSR != null">
+			PRDUCT_UPDUSR	= #{PRDUCT_UPDUSR},
+		</if>
+	</set>
+	 where PRDUCT_NO 		= #{PRDUCT_NO}
+	   and PRDUCT_CODE	= #{PRDUCT_CODE}
+</update>
+
+<delete id="deleteByPRDUCT_NO" parameterType="int">
+	delete from th_product
+	 where PRDUCT_NO = #{PRDUCT_NO}
+</delete>
+
+<delete id="deleteByPRDUCT_CODE" parameterType="string">
+	delete from th_product
+	 where PRDUCT_CODE = #{PRDUCT_CODE}
+</delete>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.webapp.mapper.MemberMapper">
+
+<sql id="member">
+	SELECT MBER_NO as mber_no,
+		   MBER_ID as mber_id,
+		   MBER_PW as mber_pw,
+		   MBER_NM as mber_nm,
+		   MBER_PHON as mber_phon,
+		   MBER_ADRES as mber_adres,
+		   MBER_REG_TIME as mber_reg_time,
+		   MBER_REGISTER as mber_register,
+		   MBER_UPDT_TIME as mber_updt_time,
+		   MBER_UPDUSR as mber_updusr
+	  FROM tn_member
+;
+</sql>
+
+<select id="selectAllMembers">
+
+	<include refid="member"/>
+
+</select>
+
+
+<update id="update" parameterType="com.webapp.model.Member">
+
+UPDATE tn_member
+	MBER_ID= ?,  
+	MBER_PW= ?,  
+	MBER_NM= ?,  
+	MBER_PHON= ?,  
+	MBER_ADRES= ?,  
+	MBER_REG_TIME= ?,  
+	MBER_REGISTER= ?,  
+	MBER_UPDT_TIME= ?,  
+	MBER_UPDUSR=? 
+WHERE 
+	MBER_NO = #{MBER_NO}
+</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- TransactionManager -->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource" />
+</bean>
+
+
+<!-- DataSource -->
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver" />	
+	<property name="url" value="jdbc:mysql://211.183.2.166:3306/projectA"/>
+	<property name="username">
+		<value>projectA</value>
+	</property>
+	<property name="password">
+		<value>0001</value>
+	</property>
+	<property name="maxActive" value="10" />
+	<property name="maxWait" value="-1" />
+</bean>
+
+
+<!-- sqlSessionFactory -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource" />
+	<property name="mapperLocations">
+		<list>
+			<value>classpath:com/webapp/mapper/MemberMapper.xml</value>
+<!-- 			<value>classpath:com/webapp/mapper/PointMapper.xml</value> -->
+<!-- 			<value>classpath:com/webapp/mapper/MemberOptionMapper.xml</value> -->
+		</list>
+	</property>
+</bean>
+
+<!-- SqlSessionTemplate -->
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="sqlSessionFactory"/>
+</bean>
+
+
+
+<!-- MemberMapper -->
+<bean class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="sqlSessionTemplate" ref="sqlSession" />
+	<property name="mapperInterface" value="com.webapp.mapper.MemberMapper"/>
+</bean>
+
+<!-- MemberOptionMapper-->
+<!-- <bean class="org.mybatis.spring.mapper.MapperFactoryBean"> -->
+<!-- 	<property name="sqlSessionTemplate" ref="sqlSession" /> -->
+<!-- 	<property name="mapperInterface" value="com.webapp.mapper.MemberOptionMapper"/> -->
+<!-- </bean> -->
+
+<!-- PointMapper -->
+<!-- <bean class="org.mybatis.spring.mapper.MapperFactoryBean"> -->
+<!-- 	<property name="sqlSessionTemplate" ref="sqlSession" /> -->
+<!-- 	<property name="mapperInterface" value="com.webapp.mapper.PointMapper"/> -->
+<!-- </bean> -->
+
+
+
+</beans>
